@@ -32,7 +32,9 @@ import Editor from "./EditorTexto";
 import Loading from "@/components/loading";
 import Historial from "./Historial";
 import Participantes from "./Participantes";
+import Comentarios from "./Comentarios";
 import RecursosCompartidos from "./RecursosCompartidos";
+
 //props {idproyecto, nombrearea, idarea}
 export default function Proyecto({
   idproyecto,
@@ -665,6 +667,16 @@ export default function Proyecto({
                     SubirLevel={
                       areasdata.p_rol === "Admin" && users2.length >= 1
                     }
+                  />
+                ) : (
+                  ""
+                )}
+                {openComentarios ? (
+                  <Comentarios
+                    idproyecto={idproyecto}
+                    tituloproyecto={areasdata.p_titulo}
+                    idarea={idarea}
+                    iduser= {cookies.get("id_user")}
                   />
                 ) : (
                   ""
