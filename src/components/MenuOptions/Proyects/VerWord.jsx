@@ -11,7 +11,8 @@ export default function VerWord({ link }) {
   ];
   return (
     <div>
-      {link}
+      {/*{link} */}
+
       <DocViewer
         documents={docs}
         pluginRenderers={DocViewerRenderers}

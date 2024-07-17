@@ -55,6 +55,8 @@ import ProyectosPublicados from "./MenuOptions/Proyects/ProyectosPublicados";
 import Firmas from "./MenuOptions/Proyects/Firmas";
 import VersionesProyectosPublicados from "./MenuOptions/Proyects/VersionesProyectosPublicados";
 import FirmarDocumento from "./MenuOptions/Proyects/FirmarDocumento";
+import Head from "next/head";
+
 export default function Navbar2() {
   //Estados para el diseno del layout
   const [open, setOpen] = useState(false);
@@ -416,6 +418,9 @@ export default function Navbar2() {
   //si ya cargo renderizar
   return (
     <Fragment>
+      <Head>
+        <title>SGDV</title>
+      </Head>
       {loading ? (
         <div>
           <Loading />
@@ -439,7 +444,7 @@ export default function Navbar2() {
             color="white"
             className="mr-4 ml-2 cursor-pointer py-1.5"
           >
-            SGD
+            SGDV
           </Typography>
 
           <div className="relative flex w-full gap-4 md:w-96 ml-auto ">

@@ -28,6 +28,7 @@ import { GoogleLogin } from "@react-oauth/google";
 //import { GoogleOAuthProvider } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import { useGoogleLogin } from "@react-oauth/google";
+import Head from "next/head";
 
 //-------------NUEVO-------------------------------------------------
 
@@ -50,11 +51,14 @@ export default function Navbar1() {
     password: "",
   });
   //Borrar cookies en caso de existir alguna
-  useEffect(() => {
+  /*
+   useEffect(() => {
     const cookies = new Cookies();
     cookies.remove("id_user");
     cookies.remove("AD");
   }, []);
+  */
+
   const [inicio, setincio] = useState(false);
 
   //Evento click para verificar el inicio de sesion y obtener el token y guardalo en una cookie
@@ -80,11 +84,12 @@ export default function Navbar1() {
       //Cookie bool para saber si el usuario es Admin General
       cookies.set("AD", result.data.AD, { path: "/" });
       //Redirigir al Dashboard para consumir las cookies
-      Router.push("/Dashboard");
-
+      //Router.push("/Dashboard");
+      window.open("/Dashboard", "_blank", "noopener,noreferrer");
       console.log(result.data);
       //console.log(user);
       //Router.push("/task/tasklist/");
+      setLoading(false);
       setincio(true);
     } catch (error) {
       //En caso de haber error en el inicio de sesion abrir el alert
@@ -209,6 +214,9 @@ export default function Navbar1() {
 
   return (
     <Fragment>
+      <Head>
+        <title>SGDV</title>
+      </Head>
       <Navbar className=" rounded-none shadow-none w-full  bg-gray-900  p-4 border-none mx-auto ">
         <div className="flex flex-wrap items-center justify-between gap-y-4  ">
           <Typography
@@ -338,6 +346,8 @@ export default function Navbar1() {
                 </Button>
               )}
             </div>
+            {/* 
+            DESACTIVADO EL LOGIN CON GOOGLE DE MOMENTO
             <div
               className="h-auto bg-gray-300  shadow-2xl flex mt-4 cursor-pointer"
               onClick={login}
@@ -353,6 +363,7 @@ export default function Navbar1() {
                 Continuar con Google
               </div>
             </div>
+            */}
             <div className="tu-componente">
               <div className="flex justify-center mt-3">
                 <Button
