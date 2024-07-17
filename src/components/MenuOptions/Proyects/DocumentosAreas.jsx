@@ -19,11 +19,14 @@ import {
   Avatar,
 } from "@material-tailwind/react";
 import fileDownload from "js-file-download";
-
+import Cookies from "universal-cookie";
+import { ResizableBox } from "react-resizable";
+import "react-resizable/css/styles.css";
 import axios from "axios";
 const TABLE_HEAD = ["", "Ver archivo", "Archivo", "Fecha", "Descargar"];
 import Loading from "@/components/loading";
 import { AiOutlineUpload } from "react-icons/ai";
+import Comentarios from "./Comentarios";
 
 export default function DocumentosAreas({
   id,
@@ -78,7 +81,7 @@ export default function DocumentosAreas({
   const [link, setLink] = useState("");
   const [openD, setOpenD] = useState(false);
   const [descripcion, setDescripcion] = useState("");
-
+  const cookies = new Cookies();
   const HandleSUbumit = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -263,7 +266,23 @@ export default function DocumentosAreas({
             </Button>
           </DialogHeader>
 
-          <VerWord link={link} />
+          {/* AQUI DIVIDIR EL COMPONENTE VERWORD A LA IZQUIERDA Y UN ESPACIO A LA DERECHA PARA LOS COMENTARIOS  <VerWord link={link} /> */}
+          <div className="flex">
+            <ResizableBox
+              className="w-autop-4"
+              width={1000}
+              height={0}
+              resizeHandles={["e"]}
+              minConstraints={[700, 0]}
+              maxConstraints={[1000, 0]}
+            >
+              <VerWord link={link} />
+            </ResizableBox>
+            <div className="w-auto ">
+              {/* Aquí agregar componente a la derecha*/}
+              <Comentarios idproyecto={id} iduser={cookies.get("id_user")} />
+            </div>
+          </div>
         </Dialog>
 
         <Dialog

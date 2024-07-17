@@ -601,7 +601,7 @@ export default function Proyecto({
                 >
                   Historial de borradores
                 </Tab>
-                {RolUser.rol_user === "Admin" && proyectoEdit ? (
+                {RolUser.rol_user === "Admin" ? (
                   <Tab
                     key={"Configuracion"}
                     value={"Configuracion"}
@@ -676,7 +676,7 @@ export default function Proyecto({
                     idproyecto={idproyecto}
                     tituloproyecto={areasdata.p_titulo}
                     idarea={idarea}
-                    iduser= {cookies.get("id_user")}
+                    iduser={cookies.get("id_user")}
                   />
                 ) : (
                   ""

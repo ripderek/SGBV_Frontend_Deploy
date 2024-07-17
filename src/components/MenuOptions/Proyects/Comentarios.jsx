@@ -79,10 +79,10 @@ export default function Comentarios({
     try {
       if (tipoMensaje == "img") {
         if (file == null) {
-            alert("Seleccione una imagen");
-            setLoading(false);
-            return;
-          }
+          alert("Seleccione una imagen");
+          setLoading(false);
+          return;
+        }
         const form = new FormData();
         form.set("file", file);
         form.set("p_id_proyecto", idproyecto);
@@ -143,16 +143,16 @@ export default function Comentarios({
   };
 
   return (
-    <div>
+    <div className="h-full w-full">
       {loading && <Loading />}
       <div className="p-4 border-b text-center">
         <Typography variant="h3" color="black">
           Comentarios
         </Typography>
       </div>
-      <div className="flex flex-col max-h-96 flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex flex-col  flex-1 overflow-y-auto p-2 space-y-4 h-96">
         {comentarios.length == 0 ? (
-          <div className="items-center text-center space-x-4">
+          <div className="items-center text-center ">
             <div className="p-4 rounded-lg shadow-md ">
               <Typography variant="h6" className="mt-1">
                 No hay comentarios aún
@@ -184,18 +184,17 @@ export default function Comentarios({
                   {comen.r_nombres}
                 </Typography>
                 {comen.r_tipo_mensaje === "img" ? (
-
-                    <img
-                      className="  h-max w-max  mx-auto "
-                      src={
-                        !fileP
-                          ? process.env.NEXT_PUBLIC_ACCESLINK +
-                            "chats/visualizar_chat_img/" +
-                            comen.r_id_chat
-                          : fileP
-                      }
-                      alt="User image"
-                    />
+                  <img
+                    className="  h-max w-max  mx-auto "
+                    src={
+                      !fileP
+                        ? process.env.NEXT_PUBLIC_ACCESLINK +
+                          "chats/visualizar_chat_img/" +
+                          comen.r_id_chat
+                        : fileP
+                    }
+                    alt="User image"
+                  />
                 ) : (
                   <Typography variant="body2" className="mt-1">
                     {comen.r_mensaje}
@@ -209,7 +208,7 @@ export default function Comentarios({
           ))
         )}
       </div>
-      <form onSubmit={handleSubmit} className="p-4 flex space-x-2">
+      <form onSubmit={handleSubmit} className="p-4 flex ">
         <div>
           <input
             type="file"
@@ -225,16 +224,16 @@ export default function Comentarios({
               component="span"
               onClick={handleButtonClick}
             >
-              <HiPhotograph className="w-6 h-6" />
+              <HiPhotograph className="w-4 h-4" />
             </Button>
           </label>
         </div>
-        <Input
+        <textarea
           type="text"
           value={nuevoComentario}
           onChange={handleCommentChange}
           placeholder="Escribe un comentario"
-          className="flex-grow"
+          className="flex-grow border-2 border-gray-400 m-2"
         />
         <Button type="submit" variant="filled">
           <HiPaperAirplane className="w-6 h-6" />
