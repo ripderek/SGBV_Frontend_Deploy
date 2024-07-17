@@ -148,6 +148,7 @@ export default function NivelesProyecto({ id, SubirLevel }) {
               size="md"
               className="ml-5 rounded-none"
               onClick={HandleSUbumit}
+              //onClick={() => alert("Esta opcion esta bloqueada de momento")}
             >
               Aceptar
             </Button>
