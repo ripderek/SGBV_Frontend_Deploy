@@ -18,6 +18,8 @@ import {
   Chip,
   Avatar,
 } from "@material-tailwind/react";
+import fileDownload from "js-file-download";
+
 import axios from "axios";
 const TABLE_HEAD = ["", "Ver archivo", "Archivo", "Fecha", "Descargar"];
 import Loading from "@/components/loading";
@@ -125,10 +127,28 @@ export default function DocumentosAreas({
     setLink(
       extension === ".pdf"
         ? process.env.NEXT_PUBLIC_ACCESLINK + "proyects/pdf/" + id_doc
-        : process.env.NEXT_PUBLIC_ACCESLINK + "public/word/" + id_doc
+        : "https://encuesta.uteq.edu.ec:8080/api/public/word/" + id_doc
     );
     if (extension === ".pdf") setOpenD(true);
     else setVerWord(true);
+  };
+  //Descargar Documento
+  const DescargarDocumento = async (id_doc, extension) => {
+    //alert("Descargnado");
+    //console.log(guiaDown);
+    setLoading(true);
+
+    axios({
+      method: "post",
+      url: process.env.NEXT_PUBLIC_ACCESLINK + "proyects/descargardoc/",
+      data: { id: id_doc },
+      responseType: "blob",
+      withCredentials: true,
+    }).then((res) => {
+      fileDownload(res.data, `${TituloProyecto}${extension}`);
+      setLoading(false);
+    });
+    //setLoading(false);
   };
   return (
     <div>
@@ -245,103 +265,98 @@ export default function DocumentosAreas({
 
           <VerWord link={link} />
         </Dialog>
-        {openUser ? (
-          <Dialog
-            size="sm"
-            open={openUser}
-            handler={handlerOpenUsers}
-            className=" rounded-none"
-          >
-            <DialogHeader>
-              Subir Documento
-              <Button
-                color="red"
-                variant="text"
-                size="md"
-                className="!absolute top-3 right-3"
-                onClick={() => (handlerOpenUsers(), load())}
+
+        <Dialog
+          size="sm"
+          open={openUser}
+          handler={handlerOpenUsers}
+          className=" rounded-none"
+        >
+          <DialogHeader>
+            Subir Documento
+            <Button
+              color="red"
+              variant="text"
+              size="md"
+              className="!absolute top-3 right-3"
+              onClick={() => (handlerOpenUsers(), load())}
+            >
+              <Typography variant="h5" color="blue-gray">
+                X
+              </Typography>
+            </Button>
+          </DialogHeader>
+
+          <form className=" sm:w-full" onSubmit={HandleSUbumit}>
+            <Card className="w-full  mx-auto bg-blue-gray-100 rounded-none shadow-2xl">
+              <Alert
+                color="green"
+                onClose={() => setOpenAlert(false)}
+                open={openAlert}
               >
-                <Typography variant="h5" color="blue-gray">
-                  X
-                </Typography>
-              </Button>
-            </DialogHeader>
+                Se subio el documento
+              </Alert>
+              <Alert
+                color="red"
+                onClose={() => setOpenAlerterror(false)}
+                open={openAlerterror}
+              >
+                El formato de subida no es el correcto
+              </Alert>
+              <CardHeader
+                color="white"
+                floated={false}
+                shadow={false}
+                className="m-0 grid place-items-center rounded-none py-8 px-4 text-center"
+              >
+                <div className="mb-4 w-full">
+                  <Input
+                    variant="outlined"
+                    color="black"
+                    label="Descripcion del documento"
+                    name="contra_nueva"
+                    onChange={(e) => setDescripcion(e.target.value)}
+                  />
+                </div>
+                <div className="mx-auto bg-yellow-800 p-2 rounded-xl">
+                  <label htmlFor="fileInput" className="text-white font-bold ">
+                    Subir archivo:
+                  </label>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    onChange={ImagePreview}
+                    // accept=".pdf"
+                    accept=".doc,.docx,.pdf"
+                    className="hidden"
+                    ref={fileInputRef}
+                  />
+                  <Button
+                    className="ml-3  rounded-xl  bg-white h-11"
+                    onClick={handleButtonClick}
+                  >
+                    <AiOutlineUpload size="25px" color="black" />
+                  </Button>
+                </div>
 
-            <form className=" sm:w-full" onSubmit={HandleSUbumit}>
-              <Card className="w-full  mx-auto bg-blue-gray-100 rounded-none shadow-2xl">
-                <Alert
-                  color="green"
-                  onClose={() => setOpenAlert(false)}
-                  open={openAlert}
-                >
-                  Se subio el documento
-                </Alert>
-                <Alert
-                  color="red"
-                  onClose={() => setOpenAlerterror(false)}
-                  open={openAlerterror}
-                >
-                  El formato de subida no es el correcto
-                </Alert>
-                <CardHeader
-                  color="white"
-                  floated={false}
-                  shadow={false}
-                  className="m-0 grid place-items-center rounded-none py-8 px-4 text-center"
-                >
-                  <div className="mb-4 w-full">
-                    <Input
-                      variant="outlined"
-                      color="black"
-                      label="Descripcion del documento"
-                      name="contra_nueva"
-                      onChange={(e) => setDescripcion(e.target.value)}
-                    />
-                  </div>
-                  <div className="mx-auto bg-yellow-800 p-2 rounded-xl">
-                    <label
-                      htmlFor="fileInput"
-                      className="text-white font-bold "
-                    >
-                      Subir archivo:
-                    </label>
-                    <input
-                      type="file"
-                      id="fileInput"
-                      onChange={ImagePreview}
-                      // accept=".pdf"
-                      accept=".doc,.docx,.pdf"
-                      className="hidden"
-                      ref={fileInputRef}
-                    />
-                    <Button
-                      className="ml-3  rounded-xl  bg-white h-11"
-                      onClick={handleButtonClick}
-                    >
-                      <AiOutlineUpload size="25px" color="black" />
-                    </Button>
-                  </div>
+                {fileName && <Typography color="gray">{fileName}</Typography>}
+              </CardHeader>
+              <CardBody className="text-right">
+                <div>
+                  <Button
+                    className="bg-green-700 p-3 justify-items-end rounded-none"
+                    type="submit"
+                  >
+                    <Typography variant="h6" color="white">
+                      Aceptar
+                    </Typography>
+                  </Button>
+                </div>
+              </CardBody>
+            </Card>
+          </form>
+        </Dialog>
 
-                  {fileName && <Typography color="gray">{fileName}</Typography>}
-                </CardHeader>
-                <CardBody className="text-right">
-                  <div>
-                    <Button
-                      className="bg-green-700 p-3 justify-items-end rounded-none"
-                      type="submit"
-                    >
-                      <Typography variant="h6" color="white">
-                        Aceptar
-                      </Typography>
-                    </Button>
-                  </div>
-                </CardBody>
-              </Card>
-            </form>
-          </Dialog>
-        ) : (
-          ""
-        )}
         {editproyecto === true ? (
           <Button
             className="ml-auto flex gap-1 md:mr-4 rounded-none md:ml-6 bg-yellow-800 h-11"
@@ -448,6 +463,9 @@ export default function DocumentosAreas({
                     <IconButton
                       variant="text"
                       color="blue-gray"
+                      onClick={() =>
+                        DescargarDocumento(user.d_id, user.d_extension)
+                      }
                       /*
                       onClick={() => (
                         setLink(
