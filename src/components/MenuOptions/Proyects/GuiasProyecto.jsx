@@ -112,6 +112,7 @@ export default function GuiasProyecto({ id, rol, editproyecto, permitesubir }) {
   });
   //funcion para descargar la guia
   const DescargarGuia = async (archvi, guia) => {
+    alert(archvi);
     console.log(guiaDown);
     setLoading(true);
 

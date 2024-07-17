@@ -32,6 +32,7 @@ import Editor from "./EditorTexto";
 import Loading from "@/components/loading";
 import Historial from "./Historial";
 import Participantes from "./Participantes";
+import RecursosCompartidos from "./RecursosCompartidos";
 //props {idproyecto, nombrearea, idarea}
 export default function Proyecto({
   idproyecto,
@@ -184,6 +185,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openAlcance, setOpenAlcance] = useState(false);
   const HandleAlcance = () => {
@@ -201,6 +203,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openGuias, setOpenGuias] = useState(false);
   const HandleGuias = () => {
@@ -218,6 +221,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openFlujo, setOpenFlujo] = useState(false);
   const HandleFlujo = () => {
@@ -235,6 +239,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openDefinir, setOpenDefinir] = useState(false);
   const HandlerDefinir = () => {
@@ -252,6 +257,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openSubir, setOpenSubir] = useState(false);
   const HandlerSubir = () => {
@@ -269,6 +275,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openRevisiones, setOpenRevisiones] = useState(false);
   const HandlerRevisiones = () => {
@@ -286,6 +293,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openComentarios, setOpenComentarios] = useState(false);
   const HandleComentarios = () => {
@@ -303,6 +311,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openParticipantes, setOpenParticipantes] = useState(false);
   const HandleParticipantes = () => {
@@ -320,6 +329,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openBorradores, setOpenBorradores] = useState(false);
   const HandlerBorradores = () => {
@@ -337,6 +347,7 @@ export default function Proyecto({
     setOpenConfiguracion(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openConfiguracion, setOpenConfiguracion] = useState(false);
   const HandlerConfiguracion = () => {
@@ -354,10 +365,31 @@ export default function Proyecto({
     setOpenDocumentos(false);
     setOpenHistorial(false);
     setFondo(false);
+    setOpenRecursosCompartidos(false);
   };
   const [openHistorial, setOpenHistorial] = useState(false);
   const HandlerHistorial = () => {
     setOpenHistorial(true);
+    setOpenConfiguracion(false);
+    setOpenBorradores(false);
+    setOpenParticipantes(false);
+    setOpenComentarios(false);
+    setOpenRevisiones(false);
+    setOpenSubir(false);
+    setOpenDefinir(false);
+    setOpenFlujo(false);
+    setOpenGuias(false);
+    setOpenAlcance(false);
+    setOpenD(false);
+    setOpenDocumentos(false);
+    setFondo(false);
+    setOpenRecursosCompartidos(false);
+  };
+  //para ver los recursos compartidos
+  const [openRecursosCompartidos, setOpenRecursosCompartidos] = useState(false);
+  const HandlerRecursos = () => {
+    setOpenRecursosCompartidos(true);
+    setOpenHistorial(false);
     setOpenConfiguracion(false);
     setOpenBorradores(false);
     setOpenParticipantes(false);
@@ -459,6 +491,15 @@ export default function Proyecto({
                   Documento
                 </Tab>
                 <Tab
+                  key={"RecursoCompartido"}
+                  value={"RecursoCompartido"}
+                  onClick={HandlerRecursos}
+                  className={ClaseHover}
+                >
+                  Recursos Compartidos
+                </Tab>
+                {/* 
+                <Tab
                   key={"Editor de Texto"}
                   value={"Editor de Texto"}
                   onClick={() => setOpenD(true)}
@@ -466,6 +507,7 @@ export default function Proyecto({
                 >
                   Editor de Texto
                 </Tab>
+                */}
                 {areasdata.p_reforma ? (
                   <Tab
                     key={"Alcance"}
@@ -665,6 +707,14 @@ export default function Proyecto({
                   />
                 ) : (
                   ""
+                )}
+                {openRecursosCompartidos && (
+                  <RecursosCompartidos
+                    ProyectoID={idproyecto}
+                    permite_agregar={
+                      RolUser.rol_user === "Admin" ? true : false
+                    }
+                  />
                 )}
               </TabsBody>
             </Tabs>
